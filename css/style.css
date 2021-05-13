@@ -1,0 +1,164 @@
+/** (*) => This selects each and every element on the html
+box-sizing: border-box; => This changes the box model so that the borders and the paddings are no longer added to the total width or the total heigt that we specify for a box. Without this, any paddings or borders will be added to the height/width of an element, which really isn't helpful for us, so with this we're getting rid of that behavior.
+*/
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  /*box-sizing: border-box; Bunu body'e tasidik.*/
+  box-sizing: inherit;
+  /*box-sizing property normalde inherit edilmiyor. Biz burada butun child tag'lerde de inherit edilmesini sagliyoruz. Asagida body'de border-box yaptik, ve body icindeki butun tag'lerde buradaki inherit sayesinde artik hep border-box olacak (inherit edilecek). */ }
+
+/** Root font-size aslinda html'deki font-size oluyor ve default degeri normalde 16px. Burada 10px yaparak eziyoruz. 10 yapinca child tag'lerde rem kullanarak hesap yapmak cok kolay oluyor, o nedenle 10 seciliyor. Fakat direkt 10px yazmanin dezavantajlari var. Bazi kullanicilar browser'larinda default font size set ediyorlar, mesela 20 (iyi goremiyor belki). Onu ezmek istemeyiz. O nedenle % olarak veriyoruz. Default olarak 16px kullaniliyor browser'larda. Biz 10px yapmak icin: 10/16 yani 62.5% yaziyoruz.*/
+html {
+  /*font-size: 10px;*/
+  font-size: 62.5%; }
+
+/** We set the font-family here in the body element and not do it above (the global selector) because we want to use the power of inheritance for the child elements. We want this property to be inherited from the body element to the children. */
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  /*font-size: 16px;*/
+  line-height: 1.7;
+  color: #777;
+  /*padding: 30px;*/
+  padding: 3rem;
+  box-sizing: border-box; }
+
+/** 
+height: 95vh; => 95% of the viewport height
+background-size: cover; => Whatever the size of the viewport, always try to fit the element to that.
+clip-path => icin online free tool: https://bennettfeely.com/clippy/
+*/
+.header {
+  height: 95vh;
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/hero.jpg);
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  /* clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);; */ }
+
+/** position: absolute; => Bunu verdigimizde, parent'larinda "position: relative;" olarak verdigimiz hangisiyse, ona gore pozisyon aliyor. Bu ornekte parent, yukaridaki header class'ta verdik. */
+.header__logo-box {
+  position: absolute;
+  top: 4rem;
+  left: 4rem; }
+
+.header__logo-box:hover .logo {
+  animation: moveInRight 3s ease-out; }
+
+.header__logo {
+  height: 3.5rem; }
+
+.header__text-box {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center; }
+
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  backface-visibility: hidden;
+  margin-bottom: 6rem; }
+
+.heading-primary--main {
+  display: block;
+  font-size: 6rem;
+  font-weight: 400;
+  letter-spacing: 3.5rem;
+  animation-name: moveInLeft;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  /*
+  animation-delay: 3s;
+  animation-iteration-count: 3;
+   */ }
+
+.heading-primary--sub {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1.75rem;
+  animation: moveInRight 1s ease-out; }
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem); }
+  80% {
+    transform: translateX(1rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem); }
+  80% {
+    transform: translateX(-1rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
+
+/** :link and :visited here are called as pseudo-classes*/
+.btn:link,
+.btn:visited {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1.5rem 4rem;
+  display: inline-block;
+  border-radius: 10rem;
+  transition: all 0.2s;
+  position: relative;
+  /**.btn::after kisminda "position: absolute;" kullandik. O nedenle parent olarak buraya relative koyduk.*/
+  font-size: 1.6rem; }
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); }
+
+/** Button'a click edildiginde :active pseudo-class */
+.btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2); }
+
+.btn--white {
+  background-color: #fff;
+  color: #777; }
+
+.btn::after {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 10rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s; }
+
+.btn--white::after {
+  background-color: #fff; }
+
+.btn:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0; }
+
+/** Burada 0.75s delay koyduk. Diger animation'lardan birazcik daha gec baslayacak.*/
+.btn--animated {
+  animation: moveInBottom 0.5s ease-out 0.75s;
+  animation-fill-mode: backwards; }
